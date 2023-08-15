@@ -1,5 +1,6 @@
 
 #include "class.hpp"
+#include "class_2.hpp"
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
@@ -16,6 +17,22 @@ TEST (FooUsageTest, FooIsCalled)
     UseFoo useFoo(&mockFoo);
 
     EXPECT_CALL(mockFoo, foo()).Times(1);
+    useFoo.useFoo();
+}
+
+TEST (FooVirtual, FooIsCalled) 
+{
+    class MockFoo : public FooVirtual {
+    public:
+        MOCK_METHOD(void, foo, (), (override));
+        MOCK_METHOD(void, bar, ());
+    };
+
+    MockFoo mockFoo;
+    UseFoo2 useFoo(&mockFoo);
+
+    EXPECT_CALL(mockFoo, foo()).Times(1);
+
     useFoo.useFoo();
 }
 
